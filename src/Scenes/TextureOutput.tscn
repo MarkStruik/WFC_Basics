@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Scripts/TextureOutput.gd" type="Script" id=1]
+[ext_resource path="res://SampleTextures/rooms-mini.png" type="Texture" id=3]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( 41, 66 )
+script = ExtResource( 1 )
+in_texture = ExtResource( 3 )
+
+[node name="Input" type="Sprite" parent="."]
+position = Vector2( -33, -58 )
+scale = Vector2( 6.85714, 6.85714 )
+texture = ExtResource( 3 )
+centered = false
