@@ -5,7 +5,7 @@ Basic implementation details from:
 https://github.com/mxgmn/WaveFunctionCollapse#algorithm
 
 ## Algorithm
-1. Read the input bitmap and count NxN patterns.
+1. Read the input bitmap and count NxN patterns. ✔
     1. (optional) Augment pattern data with rotations and reflections.
 2. Create an array with the dimensions of the output (called "wave" in the source). Each element of this array represents a state of an NxN region in the output. A state of an NxN region is a superposition of NxN patterns of the input with boolean coefficients (so a state of a pixel in the output is a superposition of input colors with real coefficients). False coefficient means that the corresponding pattern is forbidden, true coefficient means that the corresponding pattern is not yet forbidden.
 3. Initialize the wave in the completely unobserved state, i.e. with all the boolean coefficients being true.
