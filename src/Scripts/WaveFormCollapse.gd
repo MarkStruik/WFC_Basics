@@ -6,6 +6,9 @@ var _n = 3;
 var processedChunks = []
 
 func _init(input: Texture):
+	create_process_chunks(input)
+
+func create_process_chunks(input: Texture):
 	# ingest the texture into NxN pictures
 	var height := input.get_height() + 1
 	var width := input.get_width() + 1
