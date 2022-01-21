@@ -3,7 +3,6 @@ class_name WaveFormCollapse
 var _n
 var _outputWidth
 var _outputHeight
-var _processedChunks = []
 var _inputTexture: Texture
 
 func _init(input: Texture, n: int, width: int, height: int):
@@ -22,7 +21,7 @@ func _init(input: Texture, n: int, width: int, height: int):
 # ], etc
 # [/codeblock] 
 func create_process_chunks():
-	_processedChunks = []
+	var _processedChunks = []
 	var height := _inputTexture.get_height() + 1
 	var width := _inputTexture.get_width() + 1
 	var image := _inputTexture.get_data()
@@ -35,6 +34,7 @@ func create_process_chunks():
 				var block := _get_pixelData(image, Vector2(x,y))
 				_processedChunks.append([Vector2(x,y),block])
 	image.unlock() # unlock it so its available elsewhere again
+	return _processedChunks
 
 # Method to get an 'N' sector from a specific point on an image
 # warning: image needs to be unlocked
@@ -52,10 +52,14 @@ func _get_pixelData(img: Image, start_pos: Vector2) -> Array:
 
 # Generate Output Texture
 func generateOutputTexture() -> Texture:
+	# always start from scratch
+	var chunks = create_process_chunks()
+
 	# genrate array of pixels for the with and height
-	var wave = _create_empty_wave_data()
+	var wave = _create_empty_wave_data(chunks)
 
 	# pick a random starting chunk
+
 
 	# pick a random point on the map to 'place' a starting chunk
 	# (optional) add more starting chunks for beter randomisations?
@@ -80,13 +84,13 @@ func generateOutputTexture() -> Texture:
 # 0: color, 
 # 1: boolean if fully checked = false, 
 # 2: all available chunks -> todo optimise later?!
-func _create_empty_wave_data() -> Array:
+func _create_empty_wave_data(chunks) -> Array:
 	var wave := []
 	for	x in _outputWidth:
 		var row = []
 		for y in _outputHeight:
 			# transparent is used as empty color here
-			row.append([Color.transparent, false, _processedChunks.duplicate(true)])
+			row.append([Color.transparent, false, chunks.duplicate(true)])
 		wave.append(row)
 	return wave
 

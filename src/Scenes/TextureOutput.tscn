@@ -1,40 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Scripts/TextureOutput.gd" type="Script" id=1]
-[ext_resource path="res://assets/tiles.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Tilesets/TilesetDung.tres" type="TileSet" id=2]
 [ext_resource path="res://SampleTextures/simple.png" type="Texture" id=4]
-
-[sub_resource type="Gradient" id=2]
-colors = PoolColorArray( 0, 0, 0, 1, 0.00390625, 0.00383208, 0.00383208, 1 )
-
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
-width = 112
-
-[sub_resource type="TileSet" id=1]
-0/name = "tiles.png 0"
-0/texture = ExtResource( 2 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 16, 64, 48, 48 )
-0/tile_mode = 1
-0/autotile/bitmask_mode = 0
-0/autotile/bitmask_flags = [ Vector2( 0, 0 ), 325, Vector2( 0, 1 ), 325, Vector2( 0, 2 ), 325, Vector2( 1, 0 ), 325, Vector2( 1, 1 ), 325, Vector2( 1, 2 ), 325, Vector2( 2, 0 ), 325, Vector2( 2, 1 ), 325 ]
-0/autotile/icon_coordinate = Vector2( 0, 0 )
-0/autotile/tile_size = Vector2( 16, 16 )
-0/autotile/spacing = 0
-0/autotile/occluder_map = [  ]
-0/autotile/navpoly_map = [  ]
-0/autotile/priority_map = [ Vector3( 0, 1, 5 ), Vector3( 1, 0, 2 ), Vector3( 1, 1, 5 ), Vector3( 2, 0, 3 ), Vector3( 2, 1, 5 ) ]
-0/autotile/z_index_map = [  ]
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape_one_way = false
-0/shape_one_way_margin = 0.0
-0/shapes = [  ]
-0/z_index = 0
 
 [node name="Node2D" type="Node2D"]
 position = Vector2( 41, 66 )
@@ -50,27 +18,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
-margin_left = -33.0
-margin_top = 191.0
-margin_right = 79.0
-margin_bottom = 303.0
-rect_min_size = Vector2( 226, 226 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = SubResource( 3 )
-stretch_mode = 1
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+[node name="InputLocation" type="Node2D" parent="."]
+position = Vector2( -23, 169 )
 
-[node name="floorandwall" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
+[node name="floorandwall" type="TileMap" parent="InputLocation"]
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 262149, 1, 0, 262150, 1, 0, 262151, 1, 0, 262152, 1, 0, 327686, 1, 0, 327687, 1, 0, 327688, 1, 0, 327689, 1, 0, 393222, 1, 0, 393224, 1, 0, 393225, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 524295, 1, 0, 524296, 1, 0 )
 
 [node name="Output" type="Sprite" parent="."]
 position = Vector2( 223, 192 )

@@ -2,23 +2,29 @@ extends Node2D
 
 export(Texture) var in_texture: Texture
 onready var input_text := $Input
-onready var tileset := $floorandwall
+onready var tileset := $InputLocation/floorandwall
 onready var outputSprite := $Output
 
 func _init():
+	randomize()
+	# testing seed -> might be usefull to have specialize user enabled seed based generations
+	seed("testing".hash())
+
 	OS.center_window()
 
 func _ready():
+	
 	var wfc = WaveFormCollapse.new(in_texture, 3, 50, 30)
 	input_text.texture = in_texture
 	wfc.create_process_chunks()
 	outputSprite.texture = wfc.generateOutputTexture()
 	draw_input_chunks(wfc)
 
-	translate_image_to_tiles($TextureRect.rect_position, in_texture.get_data())
+	translate_image_to_tiles(in_texture.get_data())
 
 func draw_input_chunks(wfc: WaveFormCollapse):
-	for chunk in wfc._processedChunks:
+	var chunks = wfc.create_process_chunks()
+	for chunk in chunks:
 		var sprite = Sprite.new()
 		var tex = ImageTexture.new()
 		tex.lossy_quality = 0
@@ -39,19 +45,23 @@ func draw_input_chunks(wfc: WaveFormCollapse):
 		sprite.position = Vector2(70 + ( chunk[0].x * 20), -62.5 + ( chunk[0].y * 20 )) 
 		add_child(sprite)
 
-func translate_image_to_tiles(start_pos: Vector2, img: Image):
+func translate_image_to_tiles(img: Image):
 	
-	var tilesize = Vector2(16,16)
+	#var tilesize = Vector2(16,16)
 	
 	# convert the global position into the tileset position
-	var tilepos = tileset.world_to_map(start_pos + tilesize)
+	var tilepos = Vector2.ZERO # tileset.world_to_map(start_pos + tilesize)
 	img.lock()
 	for x in img.get_width():
 		for y in img.get_height():
 			var curr_color = img.get_pixel(x, y)
-			if curr_color.r8 != 0:
+			var current_tile = tilepos + Vector2(x,y)
+			if curr_color.r8 == 255 and curr_color.g8 != 255:
 				# set the tile
 				#todo: add mapping for color to tile
-				var current_tile = tilepos + Vector2(x,y)
 				tileset.set_cell(current_tile.x, current_tile.y, 0)
+			elif curr_color.r8 == 255 and curr_color.g8 == 255:
+				tileset.set_cell(current_tile.x, current_tile.y, 1)
+
+
 	img.unlock()
