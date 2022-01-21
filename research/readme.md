@@ -1,3 +1,13 @@
+# Research
+
+# testing output
+
+N = 3
+
+![inner works](images/inner-works.png)
+
+## Results
+
 1.1 => 3,6,7,8,9 => w, w, w, w, w
 1.2 => no check
 1.3 => 7,8,9 => b , w, w
@@ -9,7 +19,7 @@
 1.9 => no check
 1 => w, b -> remove red
 
-2.1 => 7,8,9 => w, w, w 
+2.1 => 7,8,9 => w, w, w
 2.2 => 3,6,7,8,9 => b, b, w, w, b
 2.3 => 7,8,9 => b, w, w
 2.4 => no hits
