@@ -3,19 +3,22 @@ extends Node2D
 export(Texture) var in_texture: Texture
 onready var input_text := $Input
 onready var tileset := $floorandwall
+onready var outputSprite := $Output
 
 func _init():
 	OS.center_window()
 
 func _ready():
-	var wfc = WaveFormCollapse.new(in_texture)
+	var wfc = WaveFormCollapse.new(in_texture, 3, 50, 30)
 	input_text.texture = in_texture
+	wfc.create_process_chunks()
+	outputSprite.texture = wfc.generateOutputTexture()
 	draw_input_chunks(wfc)
-		
+
 	translate_image_to_tiles($TextureRect.rect_position, in_texture.get_data())
 
 func draw_input_chunks(wfc: WaveFormCollapse):
-	for chunk in wfc.processedChunks:
+	for chunk in wfc._processedChunks:
 		var sprite = Sprite.new()
 		var tex = ImageTexture.new()
 		tex.lossy_quality = 0
@@ -26,8 +29,7 @@ func draw_input_chunks(wfc: WaveFormCollapse):
 		for x in wfc._n:
 			for y in wfc._n:
 				var pixel = chunk[1][x][y]
-				
-				var col := Color(pixel[0], pixel[1], pixel[2])
+				var col := pixel as Color
 				img.set_pixel(x, y, col)
 		img.unlock()
 		tex.create_from_image(img,0)

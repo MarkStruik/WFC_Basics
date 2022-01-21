@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scenes/Scripts/TextureOutput.gd" type="Script" id=1]
 [ext_resource path="res://assets/tiles.png" type="Texture" id=2]
-[ext_resource path="res://SampleTextures/rooms-mini.png" type="Texture" id=3]
+[ext_resource path="res://SampleTextures/simple.png" type="Texture" id=4]
 
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0, 0, 0, 1, 0.00390625, 0.00383208, 0.00383208, 1 )
@@ -39,12 +39,12 @@ width = 112
 [node name="Node2D" type="Node2D"]
 position = Vector2( 41, 66 )
 script = ExtResource( 1 )
-in_texture = ExtResource( 3 )
+in_texture = ExtResource( 4 )
 
 [node name="Input" type="Sprite" parent="."]
 position = Vector2( -33, -58 )
 scale = Vector2( 6.85714, 6.85714 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 __meta__ = {
 "_edit_lock_": true
@@ -71,3 +71,9 @@ cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 262149, 1, 0, 262150, 1, 0, 262151, 1, 0, 262152, 1, 0, 327686, 1, 0, 327687, 1, 0, 327688, 1, 0, 327689, 1, 0, 393222, 1, 0, 393224, 1, 0, 393225, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 524295, 1, 0, 524296, 1, 0 )
+
+[node name="Output" type="Sprite" parent="."]
+position = Vector2( 223, 192 )
+scale = Vector2( 6.85714, 6.85714 )
+texture = ExtResource( 4 )
+centered = false
