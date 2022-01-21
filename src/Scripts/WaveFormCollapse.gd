@@ -59,18 +59,41 @@ func generateOutputTexture() -> Texture:
 	var wave = _create_empty_wave_data(chunks)
 
 	# pick a random starting chunk
-
+	var rand_chunk_idx = int(rand_range(0,chunks.size()))
+	var rand_chunk = chunks[rand_chunk_idx]
 
 	# pick a random point on the map to 'place' a starting chunk
 	# (optional) add more starting chunks for beter randomisations?
+	var rand_x = int(rand_range(0, _outputWidth - _n))
+	var rand_y = int(rand_range(0, _outputHeight - _n))
+	var rand_pos = Vector2(rand_x, rand_y)
+	
+	# add random chunk to the texture
+	for x in _n:
+		for y in _n:
+			var curr_pixel_rnd_chunk = Vector2(x,y) + rand_pos
+			var wavePixel = wave[curr_pixel_rnd_chunk.x][curr_pixel_rnd_chunk.y]
+			if curr_pixel_rnd_chunk == rand_pos: # this is the rnd pos
+				wavePixel[1] = true
+				wavePixel[2] = [rand_chunk] # this has been collapsed
+			wavePixel[0] = rand_chunk[1][x][y]
 
 	# while all pixels have not been processed repeat steps until done 
 	# when we have tried 'x' times we stop the process if none of the items are moving forward
 	# calculate wave from this random point outwards
+
+	# todo radial wave
+	var wave_points = _get_wave_points(1,rand_pos)
+
+	for p in wave_points:
+		var wavePixel = wave[p.x][p.y]
+		wavePixel[0] = Color.green
+		var pointsToCheck = _get_wave_points(1,Vector2(p.x,p.y))
+		
 	
 	# check which chunks fit on the current pixel ( any pixel matching in the NxN )
 	# take the entire NxN with surrounding pixels in mind when trying to match
-	
+
 		# if there is only one options thats the one, mark the item as complete
 
 		# else remove the ones you don't need
@@ -78,6 +101,60 @@ func generateOutputTexture() -> Texture:
 		
 	var tex = _create_texture_from(wave)
 	return tex
+
+func _get_wave_points(wave_nr, start_pos):
+	var result = []
+
+	# get corners 
+	var top_left = start_pos + ( Vector2(-1,-1) * wave_nr )
+	var top_right = start_pos + ( Vector2(1,-1) * wave_nr )
+	var bottom_left = start_pos + ( Vector2(-1,1) * wave_nr )
+	var bottom_right = start_pos + ( Vector2(1,1) * wave_nr )
+
+	# floodfill between topleft to bottom right
+	
+	# alternate between 
+	# points between tl -> tr
+	var tltr = [] 
+	for x in range(top_left.x, top_right.x + 1):
+		var y = top_left.y
+		if  y < 0 and y >= _outputHeight:
+			break
+		elif x >= 0 and x < _outputWidth:
+			tltr.append(Vector2(x, y))
+	# points between tl -> bl
+	var tlbl = []
+	for y in range(top_left.y, bottom_left.y + 1):
+		var x = top_left.x
+		if x < 0 and x >= _outputWidth:
+			break;
+		elif y >= 0 and y < _outputHeight:
+			tlbl.append(Vector2(x, y))
+
+	# alternate between
+	# points between bl -> br
+	var blbr = [] 
+	for x in range(bottom_left.x, bottom_right.x + 1):
+		var y = bottom_left.y
+		if  y < 0 and y >= _outputHeight:
+			break
+		elif  x >= 0 and x < _outputWidth:
+			blbr.append(Vector2(x, y))
+	# points between tr -> br
+	var trbr = []
+	for y in range(top_right.y, bottom_right.y + 1):
+		var x = top_right.x
+		if x < 0 and x >= _outputWidth:
+			break;
+		elif y >= 0 and y < _outputHeight:
+			trbr.append(Vector2(x, y))
+
+	result.append_array(tltr)
+	result.append_array(tlbl)
+	result.append_array(blbr)
+	result.append_array(trbr)
+	
+	return result
 
 # returns full array of wave texture
 # each pixel contains => 

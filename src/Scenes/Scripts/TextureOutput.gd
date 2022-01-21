@@ -15,11 +15,10 @@ func _init():
 func _ready():
 	
 	var wfc = WaveFormCollapse.new(in_texture, 3, 50, 30)
-	input_text.texture = in_texture
-	wfc.create_process_chunks()
 	outputSprite.texture = wfc.generateOutputTexture()
-	draw_input_chunks(wfc)
 
+	input_text.texture = in_texture
+	draw_input_chunks(wfc)
 	translate_image_to_tiles(in_texture.get_data())
 
 func draw_input_chunks(wfc: WaveFormCollapse):
